@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório de Usuários</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .report-header {
+            background-color: #f8f8f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .report-date {
+            color: #666;
+            font-style: italic;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #2196F3;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .user-count {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .no-users {
+            text-align: center;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="report-header">
+            <h1>Relatório de Usuários Cadastrados</h1>
+            <p class="report-date" th:text="'Gerado em: ' + ${#dates.format(#dates.createNow(), 'dd/MM/yyyy HH:mm')}"></p>
+        </div>
+        
+        <div th:if="${!users.empty}">
+            <p class="user-count" th:text="'Total de usuários: ' + ${users.size()}"></p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Telefone</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="user : ${users}">
+                        <td th:text="${user.id}"></td>
+                        <td th:text="${user.nome}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td th:text="${user.telefone}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div th:if="${users.empty}" class="no-users">
+            <p>Não há usuários cadastrados no sistema.</p>
+        </div>
+        
+        <a class="back-link" th:href="@{/}">Voltar para o Cadastro</a>
+    </div>
+</body>
+</html>
